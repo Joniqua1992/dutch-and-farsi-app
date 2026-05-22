@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Language Path — Learn Persian & Dutch</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --persian: #6c5ce7;
+      --persian-glow: rgba(108,92,231,0.35);
+      --dutch: #f96900;
+      --dutch-glow: rgba(249,105,0,0.35);
+      --bg: #0b0b12;
+      --surface: #13131e;
+      --border: rgba(255,255,255,0.08);
+      --text: #f0eeff;
+      --muted: #7777aa;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Subtle noise texture */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 24px 80px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    /* Background orbs */
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, var(--persian-glow) 0%, transparent 70%);
+      top: -100px; left: -150px;
+      pointer-events: none;
+      animation: drift 12s ease-in-out infinite alternate;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, var(--dutch-glow) 0%, transparent 70%);
+      bottom: -80px; right: -120px;
+      pointer-events: none;
+      animation: drift 15s ease-in-out infinite alternate-reverse;
+    }
+    @keyframes drift {
+      from { transform: translate(0, 0); }
+      to   { transform: translate(40px, 30px); }
+    }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(48px, 10vw, 96px);
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: -3px;
+      margin-bottom: 24px;
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+
+    .hero-title .word-lang {
+      background: linear-gradient(135deg, var(--persian-light), var(--persian));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-title .word-path {
+      color: var(--text);
+    }
+
+    .hero-sub {
+      font-size: clamp(15px, 2.5vw, 19px);
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 480px;
+      line-height: 1.6;
+      margin-bottom: 64px;
+      animation: fadeUp 0.7s 0.2s ease both;
+    }
+
+    /* ── APP CARDS ── */
+    .cards {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+      animation: fadeUp 0.7s 0.3s ease both;
+    }
+
+    .card {
+      position: relative;
+      width: 300px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 36px 32px 32px;
+      text-decoration: none;
+      color: inherit;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+    }
+
+    .card-persian {
+      --card-color: var(--persian);
+      --card-glow: var(--persian-glow);
+    }
+    .card-dutch {
+      --card-color: var(--dutch);
+      --card-glow: var(--dutch-glow);
+    }
+
+    .card:hover {
+      border-color: var(--card-color);
+      box-shadow: 0 20px 60px var(--card-glow);
+    }
+
+    /* Card shimmer on hover */
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, var(--card-glow), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .card:hover::before { opacity: 1; }
+
+    .card-flag {
+      font-size: 48px;
+      margin-bottom: 16px;
+      display: block;
+      line-height: 1;
+    }
+
+    .card-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--card-color);
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+
+    .card-desc {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    .card-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--card-color);
+      color: #fff;
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 12px 22px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      transition: filter 0.2s ease, transform 0.2s ease;
+      text-decoration: none;
+    }
+    .card-btn:hover { filter: brightness(1.15); transform: scale(1.04); }
+
+    .card-stats {
+      position: absolute;
+      bottom: 28px;
+      right: 28px;
+      text-align: right;
+    }
+    .card-stat-num {
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--card-color);
+      opacity: 0.18;
+      line-height: 1;
+    }
+    .card-stat-lbl {
+      font-size: 9px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    /* ── FEATURES STRIP ── */
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 24px 80px;
+      max-width: 760px;
+      margin: 0 auto;
+      animation: fadeUp 0.7s 0.5s ease both;
+    }
+
+    .feature-pill {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .feature-pill span { font-size: 15px; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 0 24px 40px;
+      font-size: 12px;
+      color: var(--muted);
+      opacity: 0.5;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 660px) {
+      .card { width: 100%; max-width: 360px; }
+      .hero-title { letter-spacing: -2px; }
+      .cards { gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="hero">
+    <p class="hero-eyebrow">Free language learning apps</p>
+    <h1 class="hero-title">
+      <span class="word-lang">Language</span><br>
+      <span class="word-path">Path</span>
+    </h1>
+    <p class="hero-sub">
+      Two apps. 100 levels each. Learn Farsi from English,
+      or Dutch from Farsi — step by step, word by word.
+    </p>
+
+    <div class="cards">
+
+      <!-- PersianPath -->
+      <a class="card card-persian" href="PersianPath.html">
+        <span class="card-flag">🇮🇷</span>
+        <div class="card-label">English → Farsi</div>
+        <div class="card-title">PersianPath</div>
+        <div class="card-desc">
+          Learn Persian from scratch. Real Iranian pronunciation,
+          grammar lessons in English, and vocabulary drills.
+        </div>
+        <span class="card-btn">Start learning →</span>
+        <div class="card-stats">
+          <div class="card-stat-num">100</div>
+          <div class="card-stat-lbl">levels</div>
+        </div>
+      </a>
+
+      <!-- DutchPath -->
+      <a class="card card-dutch" href="DutchPath.html">
+        <span class="card-flag">🇳🇱</span>
+        <div class="card-label">فارسی ← Nederlands</div>
+        <div class="card-title">DutchPath</div>
+        <div class="card-desc">
+          هلندی را از فارسی بیاموز. درس‌های گرامری به فارسی،
+          تلفظ واقعی هلندی، و تمرین‌های کامل.
+        </div>
+        <span class="card-btn">شروع یادگیری ←</span>
+        <div class="card-stats">
+          <div class="card-stat-num">100</div>
+          <div class="card-stat-lbl">سطح</div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- Feature pills -->
+  <div class="features">
+    <div class="feature-pill"><span>🎮</span> Duolingo-style lessons</div>
+    <div class="feature-pill"><span>📖</span> Grammar explanations</div>
+    <div class="feature-pill"><span>🔊</span> Real pronunciation</div>
+    <div class="feature-pill"><span>📋</span> Vocabulary list + PDF</div>
+    <div class="feature-pill"><span>🔤</span> Built-in translator</div>
+    <div class="feature-pill"><span>📱</span> Works on iOS & Android</div>
+    <div class="feature-pill"><span>💾</span> Progress saved offline</div>
+    <div class="feature-pill"><span>🆓</span> Completely free</div>
+  </div>
+
+  <footer>
+    Made with ❤️ · No account needed · No ads · No tracking
+  </footer>
+
+</body>
+</html>
